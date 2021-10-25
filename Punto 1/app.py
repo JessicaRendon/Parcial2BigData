@@ -24,7 +24,7 @@ def handler(event, context):
                 upload_path = f'stocks/company={array_keys[i]}/year={year_actual}/month={month_actual}/day={day_actual}/{array_keys[i]}.csv'
                 s3.meta.client.upload_file(f'/tmp/{array_keys[i]}.csv', "parcialpunto1download" , upload_path)
         return{'status':200}
-        
+
 #Esta función permite convertir el formato de fecha a un entero el cual será utilizado para descargar los archivos de la página de yahoo
 #tambien descarga el archivo
 def get_data():
