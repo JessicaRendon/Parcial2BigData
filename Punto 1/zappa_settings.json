@@ -5,17 +5,9 @@
         "profile_name": "default",
         "project_name": "punto-1",
         "runtime": "python3.8",
-        "s3_bucket": "parcialpunto1upload",
+        "s3_bucket": "parcialpunto1download",
         "keep_warm":false,
-        "apigateway_enabled": false,
-        "events": [{
-            "function": "app.handler",
-            "event_source": {
-                  "arn":  "arn:aws:s3:::parcialpunto1download",
-                  "events": [
-                    "s3:ObjectCreated:*"
-                  ]
-               }
-            }]
+        "apigateway_enabled": false
+        
     }
 }

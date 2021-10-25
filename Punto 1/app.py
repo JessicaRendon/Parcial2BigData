@@ -1,4 +1,4 @@
-import  boto3, time, wget 
+import  wget, boto3, time
 from datetime import datetime, timedelta 
 s3 = boto3.resource('s3')
 
@@ -18,14 +18,13 @@ def handler(event, context):
 
 		for i in range(len(my_stocks)):
 			upload_path = f'stocks/company={my_stocks[i]}/year={year_actual}/month={month_actual}/day={day_actual}/{my_stocks[i]}.csv'
-			s3.meta.client.upload_file(f'{my_stocks[i]}.csv', "parcialpunto1download" , upload_path)
-
-		print("ENTRA hello from zappa")
-
+			s3.meta.client.upload_file(f'/tmp/{my_stocks[i]}.csv', "parcialpunto1download" , upload_path)
+		
+	return{"status":200}
 
 
 def get_data(symbol):
-	today = datetime.today()-timedelta(days=1)
+	today = datetime.today()-timedelta(days=3)
 	
 	today = today.replace(hour=13)
 
@@ -33,7 +32,7 @@ def get_data(symbol):
 
 
 	url = f"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1={today}&period2={today}&interval=1d&events=history&includeAdjustedClose=true"
-	wget.download(url, f'{symbol}.csv')
+	wget.download(url, f'/tmp/{symbol}.csv')
 
 def using_get_data():
     
