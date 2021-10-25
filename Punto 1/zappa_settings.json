@@ -7,7 +7,16 @@
         "runtime": "python3.8",
         "s3_bucket": "parcialpunto1download",
         "keep_warm":false,
-        "apigateway_enabled": false
+        "apigateway_enabled": false,
+        "events": [{
+            "function": "app.uploadathena",
+            "event_source": {
+                  "arn":  "arn:aws:s3:::parcialpunto1download",
+                  "events": [
+                    "s3:ObjectCreated:*" 
+                        ]
+                    }
+                }]
         
     }
 }
