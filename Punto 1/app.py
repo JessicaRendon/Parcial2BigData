@@ -17,14 +17,17 @@ def get_data():
         today = today.replace(hour=13)
         today = int(time.mktime(today.timetuple()))
 
+        #Prueba día 20 octubre 1634688000 1634774400
         for symbol in my_stocks:
             try:
-                url = f"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1={today}&period2={today}&interval=1d&events=history&includeAdjustedClose=true"
+                url = f"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1=1634688000&period2=1634774400&interval=1d&events=history&includeAdjustedClose=true"
+                #url = f"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1={today}&period2={today}&interval=1d&events=history&includeAdjustedClose=true"
                 wget.download(url, out = f'/tmp/{symbol}.csv')
             except urllib.error.HTTPError as e:
                 en_ceros = open(f'/tmp/{symbol}.csv','w+')
                 en_ceros.write(f'Date,Open,High,Low,Close,Adj Close,Volume \n{datetime.today().replace(hour=13).strftime("%Y-%m-%d")},0,0,0,0,0,0')
                 en_ceros.close()
+                print('error')
 
 def handler(event, context):    
     if today.weekday() in [0, 1, 2, 3, 4, 5]:

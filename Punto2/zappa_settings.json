@@ -1,12 +1,32 @@
 {
     "dev": {
-        "app_function": "app.handler",
+        "app_function": "scraping.handler",
         "aws_region": "us-east-1",
         "profile_name": "default",
-        "project_name": "punto2",
+        "project_name": "lambda",
         "runtime": "python3.8",
-        "s3_bucket": "parcialpunto2download",
-        "keep_warm":false,
-        "apigateway_enabled": false
+	"keep_warm": false,
+	"apigateway_enabled": false,
+	"events": [{
+            "function": "scraping.handler",
+            "event_source": {
+                  "arn":  "arn:aws:s3:::parcialpunto2download",
+                  "key_filters":[{"type":"prefix", "value":"headlines/raw/"},{"type":"suffix", "value":".html"}],
+                  "events": [
+                    "s3:ObjectCreated:*" 
+                  ]
+               }
+            },
+            {
+              "function": "scraping.athenaupdate",
+              "event_source": {
+                    "arn":  "arn:aws:s3:::parcialpunto2scrapped",
+                    "key_filters":[{"type":"prefix", "value":"headlines/final/"},{"type":"suffix", "value":".csv"}],
+                    "events": [
+                      "s3:ObjectCreated:*" 
+                    ]
+                 }
+              }
+          ]
     }
 }
