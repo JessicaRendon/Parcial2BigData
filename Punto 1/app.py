@@ -17,10 +17,10 @@ def get_data():
         today = today.replace(hour=13)
         today = int(time.mktime(today.timetuple()))
 
-        #Prueba día 20 octubre 1634688000 1634774400
+        #Prueba día 20 octubre 1633996800 1634083200
         for symbol in my_stocks:
             try:
-                url = f"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1=1634688000&period2=1634774400&interval=1d&events=history&includeAdjustedClose=true"
+                url = f"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1=1633996800&period2=1634083200&interval=1d&events=history&includeAdjustedClose=true"
                 #url = f"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1={today}&period2={today}&interval=1d&events=history&includeAdjustedClose=true"
                 wget.download(url, out = f'/tmp/{symbol}.csv')
             except urllib.error.HTTPError as e:
@@ -43,7 +43,7 @@ def uploadathena(event, context):
     response = client.start_query_execution(
         QueryString='msck repair table stocks',
         QueryExecutionContext={
-            'Database': 'stocks',
+            'Database': 'punto1'
         },
         ResultConfiguration={
             'OutputLocation': 's3://parcialpunto1upload/trash/'
